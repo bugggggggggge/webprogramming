@@ -23,11 +23,12 @@
 
         .box {
             border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;       
+            padding: 25px 10px;
+            margin-bottom: 10px;
             text-align: center;
             cursor: pointer;
             position: relative;
+            height: 100px;
         }
 
         .box img {
@@ -54,6 +55,58 @@
         .selected {
             border-color: #007bff;
         }
+
+        .letsgo {
+            text-align: center;
+
+
+        }
+
+        .alright {
+
+
+            appearance: none;
+            background-color: #FFFFFF;
+            border-radius: 40em;
+            border-style: none;
+            box-shadow: #ADCFFF 0 -12px 6px inset;
+            box-sizing: border-box;
+            color: #000000;
+            cursor: pointer;
+            display: inline-block;
+            font-family: -apple-system, sans-serif;
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -.24px;
+            margin: 0;
+            outline: none;
+            padding: 1rem 1.3rem;
+            quotes: auto;
+            text-align: center;
+            text-decoration: none;
+            transition: all .15s;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .alright:hover {
+            background-color: #FFC229;
+            box-shadow: #FF6314 0 -6px 8px inset;
+            transform: scale(1.125);
+        }
+
+        .alright:active {
+            transform: scale(1.025);
+        }
+
+        @media (min-width: 768px) {
+            .alright {
+                font-size: 1.5rem;
+                padding: .75rem 2rem;
+            }
+        }
+        
     </style>
 </head>
 
@@ -61,11 +114,21 @@
     <h2>직업 그림과 이름 맞추기</h2>
     <p>그림과 이름을 연결해보세요.</p>
     <div class="container">
-        <div id="imagesColumn" class="column"></div>
-        <div id="namesColumn" class="column"></div>
+        <div id="imagesColumn" class="column">
+            <div class="box" data-index="0"></div>
+            <div class="box" data-index="1"></div>
+            <div class="box" data-index="2"></div>
+            <div class="box" data-index="3"></div>
+        </div>
+        <div id="namesColumn" class="column">
+            <div class="box" data-index="0"></div>
+            <div class="box" data-index="1"></div>
+            <div class="box" data-index="2"></div>
+            <div class="box" data-index="3"></div>
+        </div>
     </div>
     <canvas id="connectorCanvas"></canvas>
-    <button onclick="checkMatching()">제출</button>
+    <div class="letsgo"><button onclick="checkMatching()" class="alright">제출</button></div>
 
     <script>
         const images = [
@@ -98,23 +161,17 @@
             const canvas = document.getElementById('connectorCanvas');
             const ctx = canvas.getContext('2d');
 
-            imagesColumn.innerHTML = '';
-            namesColumn.innerHTML = '';
+            const imageBoxes = imagesColumn.querySelectorAll('.box');
+            const nameBoxes = namesColumn.querySelectorAll('.box');
 
             selectedJobs.forEach((job, index) => {
-                const imgBox = document.createElement('div');
-                imgBox.classList.add('box');
-                imgBox.dataset.index = index;
+                const imgBox = imageBoxes[index];
                 imgBox.innerHTML = `<img src="${job.imageUrl}" alt="${job.jobname}">`;
-                imagesColumn.appendChild(imgBox);
             });
 
             selectedNames.forEach((job, index) => {
-                const nameBox = document.createElement('div');
-                nameBox.classList.add('box');
-                nameBox.dataset.index = index;
+                const nameBox = nameBoxes[index];
                 nameBox.textContent = job.jobname;
-                namesColumn.appendChild(nameBox);
             });
 
             let selectedImgBox = null;
@@ -167,7 +224,8 @@
         }
 
         window.onload = init;
-        window.onresize = init; // 창 크기 변경 시 캔버스 크기 재설정
+        window.onresize = init;
+
     </script>
 </body>
 
